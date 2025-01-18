@@ -46,6 +46,7 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
+          cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Start Docker Compose Services
         run: docker-compose up -d
