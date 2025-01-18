@@ -19,19 +19,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-
       - name: Install Docker Compose
         run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-
-      - name: Check Docker Compose Version
-        run: docker-compose --version
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -46,7 +37,6 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-          cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Start Docker Compose Services
         run: docker-compose up -d
@@ -61,7 +51,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Run tests
-        run: npm test
+        run: docker-compose exec app pytest
 
       - name: Deploy
         env:
