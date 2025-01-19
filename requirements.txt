@@ -3,3 +3,4 @@ uvicorn
 playwright
 pymongo
 jinja2
+pytest
