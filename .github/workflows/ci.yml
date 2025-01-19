@@ -38,6 +38,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - name: Print working directory and files
+        run: |
+          pwd
+          ls -al
+
       - name: Build and push Docker images with Docker Compose
         working-directory: .
         run: |
