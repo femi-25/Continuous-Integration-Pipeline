@@ -10,8 +10,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mongodb:27017/
     depends_on:
-      - mongodb
-    command: ["./wait-for-it.sh", "mongodb:27017", "--", "python", "app.py"]  # Wait for MongoDB
+      - mongodb  # Wait for MongoDB to be started before app starts
 
   mongodb:
     image: mongo
@@ -19,12 +18,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    healthcheck:
-      test: ["CMD", "curl", "-f", "mongodb://localhost:27017/"]
-      interval: 10s
-      retries: 5
-      start_period: 5s
-      timeout: 5s
 
 volumes:
   mongo-data:
