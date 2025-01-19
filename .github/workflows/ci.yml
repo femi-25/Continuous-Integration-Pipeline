@@ -39,6 +39,7 @@ jobs:
             ${{ runner.os }}-buildx-
 
       - name: Build and push Docker images with Docker Compose
+        working-directory: .
         run: |
           docker-compose build
           docker-compose push
