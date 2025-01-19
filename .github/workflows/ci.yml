@@ -42,7 +42,6 @@ jobs:
             libxkbcommon0 \
             libgdk-pixbuf2.0-0 \
             libgtk-3-0 \
-            libasound2 \
             libx11-xcb1 \
             libxcb-dri3-0 \
             libxcomposite1 \
