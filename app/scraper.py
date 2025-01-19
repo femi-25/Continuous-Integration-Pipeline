@@ -15,15 +15,31 @@ async def scrape(url):
         page = await browser.new_page()
         await page.goto(url)
         
-        # Extract data
+        print(f"Scraping URL: {url}")
         elements = await page.query_selector_all('p')
+        print(f"Number of <p> elements found: {len(elements)}")
+
+        if not elements:
+            print("No <p> tags found on the page.")
+            await browser.close()
+            return
+
+        # Extract data
         data = []
         for element in elements:
             text = await element.inner_text()
+            print(f"Extracted text inside scrape function: {text}")  # Debug statement
             data.append({'text': text})
         
+        print(f"Data to be inserted inside scrape function: {data}")  # Debug statement
+        
         # Store data in MongoDB
-        collection.insert_many(data)
+        if data:
+            collection.insert_many(data)
+            print("Data inserted into MongoDB")
+        else:
+            print("No data to insert")
+        
         await browser.close()
 
 if __name__ == "__main__":
