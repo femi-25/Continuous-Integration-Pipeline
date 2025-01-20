@@ -32,18 +32,10 @@ jobs:
         run: |
           docker-compose logs mongodb
 
-      - name: Check MongoDB Connection Status
+            - name: Check MongoDB Connection Status
         run: |
-          docker-compose exec -T app python -c "
-import pymongo
-from pymongo import MongoClient
-try:
-    client = MongoClient('mongodb://mongodb:27017/')
-    client.admin.command('ping')
-    print('MongoDB connection successful!')
-except Exception as e:
-    print(f'Error: {e}')
-"
+          docker-compose exec -T mongodb mongo --eval 'db.runCommand({ connectionStatus: 1 })'
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
