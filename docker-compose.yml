@@ -10,7 +10,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mongodb:27017/
     depends_on:
-      - mongodb  # Wait for MongoDB to be started before app starts
+      - mongodb
 
   mongodb:
     image: mongo
@@ -18,6 +18,7 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    command: bash -c "apt-get update && apt-get install -y mongo-tools && mongod"
 
 volumes:
   mongo-data:
