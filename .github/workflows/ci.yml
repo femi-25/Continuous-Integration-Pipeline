@@ -32,7 +32,7 @@ jobs:
         run: |
           docker-compose logs mongodb
 
-            - name: Check MongoDB Connection Status
+      - name: Check MongoDB Connection Status
         run: |
           docker-compose exec -T mongodb mongo --eval 'db.runCommand({ connectionStatus: 1 })'
 
