@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     build:
@@ -13,12 +11,14 @@ services:
       - mongodb
 
   mongodb:
-    image: mongo
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.mongodb
+    image: mongo:8.0  
     ports:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    command: bash -c "apt-get update && apt-get install -y mongo-tools && mongod"
 
 volumes:
   mongo-data:

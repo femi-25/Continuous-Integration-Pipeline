@@ -1,0 +1,27 @@
+FROM mongo:6.0
+
+# Install wget and gnupg
+RUN apt-get update && apt-get install -y wget gnupg && apt-get clean
+
+# Download MongoDB tools tarball
+RUN wget -qO /usr/bin/mongo-tools.tgz https://fastdl.mongodb.org/tools/db/mongodb-database-tools-debian10-x86_64-100.6.0.tgz
+
+# Extract the tools and set up symlinks
+RUN tar -xzf /usr/bin/mongo-tools.tgz -C /usr/bin/ \
+    && mv /usr/bin/mongodb-database-tools-* /usr/bin/mongo-tools \
+    && for tool in /usr/bin/mongo-tools/bin/*; do \
+        tool_name=$(basename $tool); \
+        if [ ! -f /usr/bin/$tool_name ]; then \
+          ln -s $tool /usr/bin/$tool_name; \
+        fi; \
+    done \
+    && rm -rf /usr/bin/mongo-tools.tgz
+
+# Clean up
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set up a volume for data persistence
+VOLUME /data/db
+
+# Run MongoDB as the default entrypoint
+CMD ["mongod"]
