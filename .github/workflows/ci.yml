@@ -42,6 +42,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/api-service:${{ github.sha }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/api-service:${{ github.sha }}
+
       - name: Install system dependencies for Playwright
         run: |
           sudo apt-get update
